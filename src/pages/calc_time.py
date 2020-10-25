@@ -1,6 +1,8 @@
 import streamlit as st
 import awesome_streamlit as ast
 
+import time
+import math
 import numpy as np
 import plotly.express as px
 
@@ -13,7 +15,37 @@ def get_time_deal_growe(ambient: str,
                         initial_oxide_thickness: float,
                         temperature: float,
                         final_oxide_thickness: float) -> float:
-    return 0
+
+    # Boltzmann constant in eV
+    Kb = 8.6173 * math.pow(10, -5)
+    temperature = temperature + 273.15  # °C to K
+    initial_oxide_thickness = initial_oxide_thickness*math.pow(10, -4)
+    final_oxide_thickness = final_oxide_thickness*math.pow(10, -4)
+
+    if(ambient == "Wet"):
+        B = 386*math.exp(-0.78/(Kb*temperature))
+
+        if(crystal_orientation == '<100>'):
+            A = B/(9.7*(10**7)*math.exp(-2.05/(Kb*temperature)))
+        elif(crystal_orientation == '<111>'):
+            A = B/(1.63*(10**8)*math.exp(-2.05/(Kb*temperature)))
+
+        tau = ((initial_oxide_thickness**2) + A*initial_oxide_thickness)/B
+
+    elif(ambient == "Dry"):
+        B = 772*math.exp(-1.23/(Kb*temperature))
+
+        if(crystal_orientation == '<100>'):
+            A = B/(3.71*(10**6)*math.exp(-2.00/(Kb*temperature)))
+        elif(crystal_orientation == '<111>'):
+            A = B/(6.23*(10**6)*math.exp(-2.00/(Kb*temperature)))
+
+        tau = ((initial_oxide_thickness**2) + A*initial_oxide_thickness)/B
+
+    timeans = ((final_oxide_thickness**2)-(initial_oxide_thickness**2)
+               )/B + (A*(final_oxide_thickness-initial_oxide_thickness))/B
+
+    return (time.strftime('%H:%M:%S', time.gmtime(timeans*3600)))
 
 
 def get_time_massoud(partial_pressure: float,
@@ -75,18 +107,43 @@ def write():
     theme_selection = st.sidebar.selectbox("Theme", themes)
 
     # Header for main page/Show output
-    st.header("{} minutes of heating is required".format(time))
-    st.write("For oxidising {}Å of silicon at {}°C".format(
+    st.header("{} (HH/MM/SS) of heating is required".format(time))
+    st.write("For oxidising {} Å of silicon at {} °C".format(
         final_oxide_thickness, temperature))
 
     # Plot
-    time = np.arange(0, 10, 0.1)
-    data = np.sin(time)
-    fig = px.line(x=time,
+    if final_oxide_thickness/2 > initial_oxide_thickness:
+        thickness = np.arange(final_oxide_thickness/2, final_oxide_thickness + final_oxide_thickness/2, 0.01)
+    else:
+        thickness = np.arange(initial_oxide_thickness, final_oxide_thickness + final_oxide_thickness/2, 0.01)
+    data = []
+
+    for thick_step in thickness:
+        if algorithm == "Deal-Growe":
+            time_step = get_time_deal_growe(ambient,
+                                            partial_pressure,
+                                            crystal_orientation,
+                                            initial_oxide_thickness,
+                                            temperature,
+                                            thick_step)
+            time_step = time_step.split(":")
+            hours = int(time_step[0])
+            minutes = int(time_step[1])
+            seconds = int(time_step[2])
+            time_step = (hours * 60) + (minutes) + (seconds / 60)  # convert to minutes
+        else:
+            time_step = get_time_massoud(partial_pressure,
+                                         crystal_orientation,
+                                         initial_oxide_thickness,
+                                         temperature,
+                                         thick_step)
+        data.append(time_step)
+
+    fig = px.line(x=thickness,
                   y=data,
                   template=theme_selection)
-    fig.update_layout(xaxis_title="time",
-                      yaxis_title="sine")
+    fig.update_layout(xaxis_title="oxide thickness (Å)",
+                      yaxis_title="time required (minutes)")
     st.plotly_chart(fig)
 
 
