@@ -153,7 +153,7 @@ def write():
         "Temperature (°C)", min_value=700, max_value=1200, value=1000)
     # temperature += 273.15  # °C to K
 
-    time = float(st.sidebar.text_input('Time (hours)', 0))
+    time = float(st.sidebar.text_input('Time (hours)', 1))
 
     # Calculate thickness
     if algorithm == "Deal-Growe":
