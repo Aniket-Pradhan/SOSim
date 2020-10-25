@@ -118,7 +118,7 @@ def get_thickness_massoud(partial_pressure: float,
     final_oxide_thickness = math.sqrt(
         (A/2)**2 + B*time + M1*(1-math.exp(-time/Tau1)) + M2*(1-math.exp(-time/Tau2)) + M0) - 0.5*A
 
-    return final_oxide_thickness*0.001*10000 # Ǻ
+    return final_oxide_thickness*0.001*10000  # Ǻ
 
 
 def write():
@@ -183,12 +183,12 @@ def write():
     data = []
     for time_step in timey:
         if algorithm == "Deal-Growe":
-            thickness_step  = get_thickness_deal_growe(ambient,
-                                                       partial_pressure,
-                                                       crystal_orientation,
-                                                       initial_oxide_thickness,
-                                                       temperature,
-                                                       time_step)
+            thickness_step = get_thickness_deal_growe(ambient,
+                                                      partial_pressure,
+                                                      crystal_orientation,
+                                                      initial_oxide_thickness,
+                                                      temperature,
+                                                      time_step)
         else:
             thickness_step = get_thickness_massoud(partial_pressure,
                                                    crystal_orientation,
