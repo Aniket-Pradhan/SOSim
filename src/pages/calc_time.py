@@ -54,11 +54,11 @@ def get_time_massoud(partial_pressure: float,
                      initial_oxide_thickness: float,
                      temperature: float,
                      final_oxide_thickness: float) -> float:
-    #final_oxide_thickness input to be taken in Angstrom
     approximate = minimize_scalar(lambda time:time_approximation_massoud(partial_pressure,crystal_orientation,initial_oxide_thickness,temperature,final_oxide_thickness,time))
     time_min=approximate.x
+    print("Time in Min:")
+    print(time_min)
     return (time.strftime('%H:%M:%S', time.gmtime(time_min*60)))
-
 
 
 def time_approximation_massoud(partial_pressure: float,
@@ -67,6 +67,7 @@ def time_approximation_massoud(partial_pressure: float,
                           temperature: float,
                           final_oxide_thickness: float,
                           time: float) -> float:
+  
   #Boltzmann constant in eV
     Kb=8.617e-5
     
@@ -122,7 +123,6 @@ def time_approximation_massoud(partial_pressure: float,
 
     #final oxide
     return (math.sqrt((A/2)**2 +  B*time + M1*(1-math.exp(-time/Tau1)) + M2*(1-math.exp(-time/Tau2)) + M0) - 0.5*A - oxide_thickness)**2;
-
 
 
 def write():
