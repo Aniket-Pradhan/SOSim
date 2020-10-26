@@ -7,6 +7,7 @@ import numpy as np
 import plotly.express as px
 
 from typing import List
+from scipy.optimize import minimize_scalar
 
 
 def get_time_deal_growe(ambient: str,
@@ -53,7 +54,75 @@ def get_time_massoud(partial_pressure: float,
                      initial_oxide_thickness: float,
                      temperature: float,
                      final_oxide_thickness: float) -> float:
-    return 0
+    #final_oxide_thickness input to be taken in Angstrom
+    approximate = minimize_scalar(lambda time:time_approximation_massoud(partial_pressure,crystal_orientation,initial_oxide_thickness,temperature,final_oxide_thickness,time))
+    time_min=approximate.x
+    return (time.strftime('%H:%M:%S', time.gmtime(time_min*60)))
+
+
+
+def time_approximation_massoud(partial_pressure: float,
+                          crystal_orientation: str,
+                          initial_oxide_thickness: float,
+                          temperature: float,
+                          final_oxide_thickness: float,
+                          time: float) -> float:
+  #Boltzmann constant in eV
+    Kb=8.617e-5
+    
+    #Calculating Constants
+    if(temperature<=1000):
+      Ea_B = {"<100>":2.22   , "<111>":1.71  , "<110>":1.63}
+      C_B  = {"<100>":1.70e11, "<111>":1.34e9, "<110>":3.73e8}      
+
+      Ea_BA = {"<100>":1.76  , "<111>":1.74  , "<110>":2.1}
+      C_BA  = {"<100>":7.35e6, "<111>":1.32e7, "<110>":4.73e8}
+
+    else:
+      Ea_B = {"<100>":0.68  , "<111>":0.76, "<110>":''}
+      C_B  = {"<100>":1.31e5, "<111>":2.56e5, "<110>":''}
+      
+      Ea_BA = {"<100>":3.2    , "<111>":2.95, "<110>":''}
+      C_BA  = {"<100>":3.53e12, "<111>":6.5e11, "<110>":''}
+
+    #Constants
+
+
+    B  =  C_B[crystal_orientation]*math.exp(-Ea_B[crystal_orientation]/(Kb*(temperature+273.15)))
+    B_A= C_BA[crystal_orientation]*math.exp(-Ea_BA[crystal_orientation]/(Kb*(temperature+273.15)))
+
+    # FOR TEMPERATURE <1000C
+    K01 = {"<100>":2.49e11, "<111>":2.7e9, "<110>":4.07e8}
+    K02 = {"<100>":3.72e11, "<111>":1.33e9, "<110>":1.20e8}
+
+    Ek1 = {"<100>":2.18   , "<111>":1.74  , "<110>":1.54}
+    Ek2 = {"<100>":2.28   , "<111>":1.76  , "<110>":1.56}
+    
+    Tau01 = {"<100>":4.14e-6  , "<111>":1.72e-6  , "<110>":5.38e-9}
+    Tau02 = {"<100>":2.71e-7  , "<111>":1.56e-7  , "<110>":1.63e-8}
+
+    Etau1 = {"<100>":1.38   , "<111>":1.45  , "<110>":2.02}
+    Etau2 = {"<100>":1.88   , "<111>":1.90  , "<110>":2.12}
+
+    #Parameters
+    K1 = K01[crystal_orientation]*math.exp(-Ek1[crystal_orientation]/(Kb*(temperature+273.15)))
+    K2 = K02[crystal_orientation]*math.exp(-Ek2[crystal_orientation]/(Kb*(temperature+273.15)))
+
+    Tau1 = Tau01[crystal_orientation]*math.exp(-Etau1[crystal_orientation]/(Kb*(temperature+273.15)))
+    Tau2 = Tau02[crystal_orientation]*math.exp(-Etau2[crystal_orientation]/(Kb*(temperature+273.15)))
+    A = B/B_A
+    
+    #Parameter-2
+    thickness=0.1*initial_oxide_thickness#Angstrom to nm
+    oxide_thickness=0.1*final_oxide_thickness #Angstrom to nm
+    M0 = (thickness**2)+ A*thickness
+
+    M1 = K1*Tau1
+    M2 = K2*Tau2
+
+    #final oxide
+    return (math.sqrt((A/2)**2 +  B*time + M1*(1-math.exp(-time/Tau1)) + M2*(1-math.exp(-time/Tau2)) + M0) - 0.5*A - oxide_thickness)**2;
+
 
 
 def write():
