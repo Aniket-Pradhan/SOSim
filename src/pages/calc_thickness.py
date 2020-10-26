@@ -128,9 +128,9 @@ def write():
 
     st.sidebar.title("Calculate oxide thickness")
 
-    algorithm = st.sidebar.radio("Algorithm", ["Deal-Growe", "Massoud"])
+    algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove", "Massoud"])
 
-    if algorithm == "Deal-Growe":
+    if algorithm == "Deal-Grove":
         ambient = st.sidebar.radio("Ambient", ["Dry", "Wet"])
     if algorithm == "Massoud":
         ambient = st.sidebar.radio("Ambient", ["Dry"])
@@ -156,7 +156,7 @@ def write():
     time = float(st.sidebar.text_input('Time (hours)', 1))
 
     # Calculate thickness
-    if algorithm == "Deal-Growe":
+    if algorithm == "Deal-Grove":
         thickness = get_thickness_deal_growe(ambient,
                                              partial_pressure,
                                              crystal_orientation,
@@ -177,12 +177,13 @@ def write():
     st.header("{:.2f} Ǻ thick oxide is formed".format(thickness))
     st.write("After heating silicon at {:.2f} °C for {} hours".format(
         temperature, time))
+    st.write("Algorithm used: {}".format(algorithm))
 
     # Plot
     timey = np.arange(time/2, time + time/2, 0.01)
     data = []
     for time_step in timey:
-        if algorithm == "Deal-Growe":
+        if algorithm == "Deal-Grove":
             thickness_step = get_thickness_deal_growe(ambient,
                                                       partial_pressure,
                                                       crystal_orientation,

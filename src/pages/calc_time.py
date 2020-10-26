@@ -58,8 +58,7 @@ def get_time_massoud(partial_pressure: float,
     approximate = minimize_scalar(lambda time: time_approximation_massoud(
         partial_pressure, crystal_orientation, initial_oxide_thickness, temperature, final_oxide_thickness, time))
     time_min = approximate.x
-    print("Time in Min:")
-    print(time_min)
+
     return (time.strftime('%H:%M:%S', time.gmtime(time_min*60)))
 
 
@@ -129,7 +128,6 @@ def time_approximation_massoud(partial_pressure: float,
     M2 = K2*Tau2
 
     # final oxide
-    print((math.sqrt((A/2)**2 + B*time + M1*(1-math.exp(-time/Tau1)) + M2*(1-math.exp(-time/Tau2)) + M0) - 0.5*A - oxide_thickness)**2, "-=-=-")
     return (math.sqrt((A/2)**2 + B*time + M1*(1-math.exp(-time/Tau1)) + M2*(1-math.exp(-time/Tau2)) + M0) - 0.5*A - oxide_thickness)**2
 
 
@@ -140,9 +138,9 @@ def write():
 
     st.sidebar.title("Calculate time required")
 
-    algorithm = st.sidebar.radio("Algorithm", ["Deal-Growe", "Massoud"])
+    algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove", "Massoud"])
 
-    if algorithm == "Deal-Growe":
+    if algorithm == "Deal-Grove":
         ambient = st.sidebar.radio("Ambient", ["Dry", "Wet"])
     if algorithm == "Massoud":
         ambient = st.sidebar.radio("Ambient", ["Dry"])
@@ -166,7 +164,7 @@ def write():
         st.sidebar.text_input('Final Oxide Thickness (Å)', 20))
 
     # Calculate time
-    if algorithm == "Deal-Growe":
+    if algorithm == "Deal-Grove":
         time = get_time_deal_growe(ambient,
                                    partial_pressure,
                                    crystal_orientation,
@@ -187,6 +185,7 @@ def write():
     st.header("{} (HH/MM/SS) of heating is required".format(time))
     st.write("For oxidising {} Å of silicon at {} °C".format(
         final_oxide_thickness, temperature))
+    st.write("Algorithm used: {}".format(algorithm))
 
     # Plot
     if final_oxide_thickness/2 > initial_oxide_thickness:
@@ -199,7 +198,7 @@ def write():
     data = []
 
     for thick_step in thickness:
-        if algorithm == "Deal-Growe":
+        if algorithm == "Deal-Grove":
             time_step = get_time_deal_growe(ambient,
                                             partial_pressure,
                                             crystal_orientation,
