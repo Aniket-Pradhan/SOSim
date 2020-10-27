@@ -9,8 +9,8 @@ import src.pages.calc_thickness
 def main():
     PAGES = {
         "Home": src.pages.home,
-        "Calculate time required": src.pages.calc_time,
-        "Calculate oxide thickness": src.pages.calc_thickness
+        "Calculate Time Required": src.pages.calc_time,
+        "Calculate Oxide Thickness": src.pages.calc_thickness
     }
 
     st.sidebar.title("SOSim")

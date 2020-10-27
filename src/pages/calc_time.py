@@ -136,7 +136,7 @@ def write():
               'plotly_white', 'plotly_dark', 'presentation', 'xgridoff',
               'ygridoff', 'gridon', 'none']
 
-    st.sidebar.title("Calculate time required")
+    st.sidebar.title("Calculate Time Required")
 
     algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove", "Massoud"])
 
