@@ -7,6 +7,8 @@ SOSim provides a very user friendly interface to simulate oxidation on the silic
 
 SOSim also generates the required plots for the given parameter set for easy reference.
 
+The app is live at https://sosim.herokuapp.com/
+
 ## How to use/run
 
 It is very easy to run SOSim for your use. The requirements are specified in the `requirements.txt` file, that can be installed via pip. We use Python to run SOSim.
