@@ -152,7 +152,7 @@ def write():
         partial_pressure = 1
 
     crystal_orientation = st.sidebar.selectbox('Crystal Orientation',
-                                               ["<100>", "<111>", "<110>"])
+                                               ["<100>", "<111>"])
 
     initial_oxide_thickness = float(
         st.sidebar.text_input('Initial Oxide Thickness (Å)', 10))
