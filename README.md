@@ -7,9 +7,22 @@ SOSim provides a very user friendly interface to simulate oxidation on the silic
 
 SOSim also generates the required plots for the given parameter set for easy reference.
 
-The app is live at https://sosim.herokuapp.com/
+The app is live at [https://sosim.herokuapp.com/](https://sosim.herokuapp.com/)
 
-## How to use/run
+## How to use
+
+The side menu provides options to either:
+
+- Calculate the time needed to grow "x" amount of oxide on the silicon surface
+- Calculate the oxide thickness grown by heating Silicon for "t" amount of time
+
+After selecting an option, a new page opens with more parameters to work with in the side menu. The plots and the time/thickness is given in the main page.
+
+There are many parameters that can be changed, for example temperature, oxidation time, crystal orientation, ambient (dry/wet) and the oxidation model (Deal-Grove/Massoud). All parameters are available on the side panel.
+
+The plots are iteractive and can be varied appropriately. They can be zoomed in, downloaded in high quality, annotated etc.
+
+## How to run from source
 
 It is very easy to run SOSim for your use. The requirements are specified in the `requirements.txt` file, that can be installed via pip. We use Python to run SOSim.
 
