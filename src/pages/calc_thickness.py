@@ -128,7 +128,7 @@ def write():
 
     st.sidebar.title("Calculate Oxide Thickness")
 
-    algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove"])
+    algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove", "Massoud"])
 
     if algorithm == "Deal-Grove":
         ambient = st.sidebar.radio("Ambient", ["Dry", "Wet"])

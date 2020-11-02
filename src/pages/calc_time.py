@@ -138,7 +138,7 @@ def write():
 
     st.sidebar.title("Calculate Time Required")
 
-    algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove"])
+    algorithm = st.sidebar.radio("Algorithm", ["Deal-Grove", "Massoud"])
 
     if algorithm == "Deal-Grove":
         ambient = st.sidebar.radio("Ambient", ["Dry", "Wet"])
@@ -146,10 +146,11 @@ def write():
         ambient = st.sidebar.radio("Ambient", ["Dry"])
 
     if ambient == "Wet":
-        partial_pressure = float(st.sidebar.text_input(
-            'Partial Pressure (atm)', 0.92))
+        partial_pressure = 0.92
+        st.sidebar.text('Partial Pressure: 0.92 atm')
     else:
         partial_pressure = 1
+        st.sidebar.text('Partial Pressure: 1 atm')
 
     crystal_orientation = st.sidebar.selectbox('Crystal Orientation',
                                                ["<100>", "<111>"])
