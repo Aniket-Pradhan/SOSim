@@ -9,7 +9,7 @@ def write():
     with open("README.md", 'r') as file:
         md_content = file.read()
 
-    st.markdown(md_content)
+    st.markdown(md_content, unsafe_allow_html=True)
 
 
 def get_apps() -> List[ast.shared.models.Resource]:
