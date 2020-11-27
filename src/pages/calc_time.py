@@ -158,8 +158,12 @@ def write():
     initial_oxide_thickness = float(
         st.sidebar.text_input('Initial Oxide Thickness (Å)', 10))
 
-    temperature = st.sidebar.slider(
-        "Temperature (°C)", min_value=700, max_value=1200, value=1000)
+    if algorithm == "Deal-Grove":
+        temperature = st.sidebar.slider(
+            "Temperature (°C)", min_value=700, max_value=1200, value=1000)
+    else:
+        temperature = st.sidebar.slider(
+            "Temperature (°C)", min_value=700, max_value=1000, value=850)
 
     final_oxide_thickness = float(
         st.sidebar.text_input('Final Oxide Thickness (Å)', 20))

@@ -149,8 +149,12 @@ def write():
         st.sidebar.text_input('Initial Oxide Thickness (Å)', 10))
     # initial_oxide_thickness = initial_oxide_thickness * 10**(-10)
 
-    temperature = st.sidebar.slider(
-        "Temperature (°C)", min_value=700, max_value=1200, value=1000)
+    if algorithm == "Deal-Grove":
+        temperature = st.sidebar.slider(
+            "Temperature (°C)", min_value=700, max_value=1200, value=1000)
+    else:
+        temperature = st.sidebar.slider(
+            "Temperature (°C)", min_value=700, max_value=1000, value=850)
     # temperature += 273.15  # °C to K
 
     time_hours = float(st.sidebar.text_input('Time (hours)', 1))
