@@ -4,13 +4,15 @@ import awesome_streamlit as ast
 import src.pages.home
 import src.pages.calc_time
 import src.pages.calc_thickness
+import src.pages.documentation
 
 
 def main():
     PAGES = {
         "Home": src.pages.home,
         "Calculate Time Required": src.pages.calc_time,
-        "Calculate Oxide Thickness": src.pages.calc_thickness
+        "Calculate Oxide Thickness": src.pages.calc_thickness,
+        "Documentation": src.pages.documentation
     }
 
     st.sidebar.title("SOSim")
