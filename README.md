@@ -7,7 +7,7 @@
     <h4 align=center>Made By:</h4>
     <p align=center>Aniket Pradhan, Arav Malik, M. Aamir, Mansi Gupta, Rahul Madaan</p>
     <h4 align=center>Supervised By</h4>
-    <p align=center>Prof. S. S. Jamuar, Bhavna Tiwari</p>
+    <p align=center>Prof. S. S. Jamuar, Bhavna Tiwari, Vishal Jangid</p>
 </div>
 
 ## About
