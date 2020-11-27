@@ -1,4 +1,16 @@
-# Silicon Oxidation Simulator | SOSim
+<div align=center>
+    <img src="https://www.iiitd.ac.in/sites/default/files/images/logo/style1coloricon.png" align="right" />
+    <br>
+    <h1 align=center>Silicon Oxidation Simulator | SOSim </h1>
+    <p align=center>A minimalistic Silicon Oxidation Simulator for all devices ✨</p>
+    <hr style="border=10px solid green border-radius=5px">
+    <h4 align=center>Made By:</h4>
+    <p align=center>Aniket Pradhan, Arav Malik, M. Aamir, Mansi Gupta, Rahul Madaan</p>
+    <h4 align=center>Supervised By</h4>
+    <p align=center>Prof. S. S. Jamuar, Bhavna Tiwari</p>
+</div>
+
+## About
 
 SOSim provides a very user friendly interface to simulate oxidation on the silicon surface. Users can play around with various parameters, such as the silicon type, temperature, dry/wet oxidation etc. SOSim can be used to:
 
